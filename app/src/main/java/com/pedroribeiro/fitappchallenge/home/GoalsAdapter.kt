@@ -1,5 +1,6 @@
 package com.pedroribeiro.fitappchallenge.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ class GoalsAdapter(
 }
 
 class GoalViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    @SuppressLint("SetTextI18n")
     fun bind(
         goal: Goal,
         clickListener: (Goal) -> Unit
@@ -46,5 +48,6 @@ class GoalViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         }
         itemView.goal_title.text = goal.title
         itemView.goal_description.text = goal.description
+        itemView.goal_points.text = "+ ${goal.reward.points}"
     }
 }

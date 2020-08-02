@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.pedroribeiro.fitappchallenge.R
+import com.pedroribeiro.fitappchallenge.common.RecyclerViewDecorator
 import com.pedroribeiro.fitappchallenge.common.show
 import com.pedroribeiro.fitappchallenge.model.Goal
 import com.pedroribeiro.fitappchallenge.model.GoalsResponse
@@ -44,9 +45,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        with(goal_list) {
+        goal_list.apply {
             adapter = goalsAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(
+                RecyclerViewDecorator(
+                    resources.getDimension(R.dimen.decorator_heighr).toInt()
+                )
+            )
         }
     }
 
@@ -91,7 +97,7 @@ class HomeFragment : Fragment() {
 
     private fun onGoals(goals: GoalsResponse?) {
         goals?.let {
-             goalsAdapter.updateData(goals)
+            goalsAdapter.updateData(goals)
         }
     }
 }

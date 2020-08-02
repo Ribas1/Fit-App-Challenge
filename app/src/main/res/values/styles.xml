@@ -7,4 +7,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ItemTitleTextStyle">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ItemDescriptionTextStyle">
+        <item name="android:textColor">@color/color_auxiliary_text</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ItemGoalTextStyle">
+        <item name="android:textColor">@color/color_auxiliary_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
