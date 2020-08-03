@@ -13,7 +13,9 @@ import com.pedroribeiro.fitappchallenge.common.BaseFragment
 import com.pedroribeiro.fitappchallenge.common.RecyclerViewDecorator
 import com.pedroribeiro.fitappchallenge.common.show
 import com.pedroribeiro.fitappchallenge.model.Goal
+import com.pedroribeiro.fitappchallenge.model.GoalUiModel
 import com.pedroribeiro.fitappchallenge.model.GoalsResponse
+import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,7 +23,7 @@ class HomeFragment : BaseFragment() {
 
     private val viewModel: HomeViewModel by viewModel()
     private val goalsAdapter: GoalsAdapter by lazy {
-        GoalsAdapter { goal: Goal ->
+        GoalsAdapter { goal: GoalUiModel ->
             viewModel.onGoalClick(goal)
         }
     }
@@ -96,7 +98,7 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun navigateToGoalFragment(goal: Goal) {
+    private fun navigateToGoalFragment(goal: GoalUiModel) {
         val direction = HomeFragmentDirections.actionHomeToGoal(goal)
         navigateTo(direction)
     }
@@ -113,7 +115,7 @@ class HomeFragment : BaseFragment() {
             .show()
     }
 
-    private fun onGoals(goals: GoalsResponse?) {
+    private fun onGoals(goals: GoalsUiModel?) {
         goals?.let {
             goalsAdapter.updateData(goals)
         }

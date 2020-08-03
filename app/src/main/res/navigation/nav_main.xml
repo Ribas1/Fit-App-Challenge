@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_goal">
         <argument
             android:name="goal"
-            app:argType="com.pedroribeiro.fitappchallenge.model.Goal"
+            app:argType="com.pedroribeiro.fitappchallenge.model.GoalUiModel"
             app:nullable="true" />
     </fragment>
 

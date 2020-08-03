@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pedroribeiro.fitappchallenge.R
 import com.pedroribeiro.fitappchallenge.model.Goal
+import com.pedroribeiro.fitappchallenge.model.GoalUiModel
 import com.pedroribeiro.fitappchallenge.model.GoalsResponse
+import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import kotlinx.android.synthetic.main.item_goal.view.*
 
 class GoalsAdapter(
-    private val clickListener: (Goal) -> Unit
+    private val clickListener: (GoalUiModel) -> Unit
 ) : RecyclerView.Adapter<GoalViewHolder>() {
 
-    private var goals: MutableList<Goal> = mutableListOf()
+    private var goals: MutableList<GoalUiModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_goal, parent, false)
@@ -30,8 +32,8 @@ class GoalsAdapter(
         holder.bind(goal, clickListener)
     }
 
-    fun updateData(goals: GoalsResponse) {
-        this.goals = goals.items.toMutableList()
+    fun updateData(goals: GoalsUiModel) {
+        this.goals = goals.goals.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -40,8 +42,8 @@ class GoalsAdapter(
 class GoalViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     @SuppressLint("SetTextI18n")
     fun bind(
-        goal: Goal,
-        clickListener: (Goal) -> Unit
+        goal: GoalUiModel,
+        clickListener: (GoalUiModel) -> Unit
     ) {
         itemView.setOnClickListener {
             clickListener(goal)

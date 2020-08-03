@@ -9,7 +9,7 @@ open class BaseFragment : Fragment() {
         NavHostFragment.findNavController(this).navigate(directions)
     }
 
-    protected fun navigateBack() {
+    protected fun navigateUp() {
         NavHostFragment.findNavController(this).navigateUp()
     }
 }

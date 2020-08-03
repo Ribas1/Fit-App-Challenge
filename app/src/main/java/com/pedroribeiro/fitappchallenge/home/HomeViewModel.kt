@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.pedroribeiro.fitappchallenge.common.BaseViewModel
 import com.pedroribeiro.fitappchallenge.common.SingleLiveEvent
 import com.pedroribeiro.fitappchallenge.model.Goal
+import com.pedroribeiro.fitappchallenge.model.GoalUiModel
 import com.pedroribeiro.fitappchallenge.model.GoalsResponse
+import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import com.pedroribeiro.fitappchallenge.repositories.GoalRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -22,8 +24,8 @@ class HomeViewModel(
     private val _error = MutableLiveData<Unit>()
     val error: LiveData<Unit> = _error
 
-    private val _goals = MutableLiveData<GoalsResponse>()
-    val goals: LiveData<GoalsResponse> = _goals
+    private val _goals = MutableLiveData<GoalsUiModel>()
+    val goals: LiveData<GoalsUiModel> = _goals
 
     private val _navigation = SingleLiveEvent<Navigation>()
     val navigation: LiveData<Navigation> = _navigation
@@ -43,13 +45,13 @@ class HomeViewModel(
         )
     }
 
-    fun onGoalClick(goal: Goal) {
+    fun onGoalClick(goal: GoalUiModel) {
         _navigation.postValue(Navigation.ToGoalFragment(goal))
     }
 
     sealed class Navigation {
         data class ToGoalFragment(
-            val goal: Goal
+            val goal: GoalUiModel
         ) : Navigation()
     }
 

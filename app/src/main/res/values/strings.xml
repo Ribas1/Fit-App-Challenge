@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Fit App Challenge</string>
     <string name="toolbar_home_title">Goals</string>
+    <string name="toolbar_goal_title">Goal</string>
 </resources>
