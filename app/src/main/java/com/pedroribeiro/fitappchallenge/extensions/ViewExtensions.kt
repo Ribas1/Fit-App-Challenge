@@ -1,4 +1,4 @@
-package com.pedroribeiro.fitappchallenge.common
+package com.pedroribeiro.fitappchallenge.extensions
 
 import android.view.View
 import android.widget.Button

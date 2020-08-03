@@ -1,10 +1,7 @@
 package com.pedroribeiro.fitappchallenge
 
 import android.app.Application
-import com.pedroribeiro.fitappchallenge.di.databaseModule
-import com.pedroribeiro.fitappchallenge.di.networkModule
-import com.pedroribeiro.fitappchallenge.di.repositoryModule
-import com.pedroribeiro.fitappchallenge.di.viewModelModule
+import com.pedroribeiro.fitappchallenge.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -17,7 +14,8 @@ class FitAppChallengeApplication : Application() {
                 networkModule,
                 viewModelModule,
                 repositoryModule,
-                databaseModule
+                databaseModule,
+                dataModule
             )
         }
     }

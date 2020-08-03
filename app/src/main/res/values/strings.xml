@@ -2,4 +2,6 @@
     <string name="app_name">Fit App Challenge</string>
     <string name="toolbar_home_title">Goals</string>
     <string name="toolbar_goal_title">Goal</string>
+    <string name="generic_error">An error occurred please retry later</string>
+    <string name="no_goals_error">There are currently no goals available</string>
 </resources>

@@ -11,10 +11,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.pedroribeiro.fitappchallenge.R
 import com.pedroribeiro.fitappchallenge.common.BaseFragment
 import com.pedroribeiro.fitappchallenge.common.RecyclerViewDecorator
-import com.pedroribeiro.fitappchallenge.common.show
-import com.pedroribeiro.fitappchallenge.model.Goal
+import com.pedroribeiro.fitappchallenge.extensions.show
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
-import com.pedroribeiro.fitappchallenge.model.GoalsResponse
 import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -71,8 +69,8 @@ class HomeFragment : BaseFragment() {
 
             error.observe(
                 this@HomeFragment,
-                Observer {
-                    onError()
+                Observer { errors ->
+                    onError(errors)
                 }
             )
 
@@ -107,8 +105,16 @@ class HomeFragment : BaseFragment() {
         progress_bar.show(visible)
     }
 
-    private fun onError() {
-        Snackbar.make(requireView(), "An error occurred", Snackbar.LENGTH_LONG)
+    private fun onError(errors: HomeViewModel.Errors) {
+        val errorString = when (errors) {
+            HomeViewModel.Errors.EmptyList -> getString(R.string.no_goals_error)
+            HomeViewModel.Errors.Other -> getString(R.string.generic_error)
+        }
+        showErrorSnack(errorString)
+    }
+
+    private fun showErrorSnack(errorString: String) {
+        Snackbar.make(requireView(), errorString, Snackbar.LENGTH_INDEFINITE)
             .setAction("Retry") {
                 viewModel.getGoals()
             }

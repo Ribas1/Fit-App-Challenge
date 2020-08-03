@@ -7,7 +7,7 @@ import io.reactivex.Single
 @Dao
 interface GoalsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertGoals(goals: List<Goal>): Single<List<Long>>
+    fun insertGoals(goals: Goal)
 
     @Query("SELECT * FROM goals")
     fun getGoals(): Single<List<Goal>>
