@@ -1,6 +1,7 @@
 package com.pedroribeiro.fitappchallenge
 
 import android.app.Application
+import com.pedroribeiro.fitappchallenge.di.databaseModule
 import com.pedroribeiro.fitappchallenge.di.networkModule
 import com.pedroribeiro.fitappchallenge.di.repositoryModule
 import com.pedroribeiro.fitappchallenge.di.viewModelModule
@@ -15,7 +16,8 @@ class FitAppChallengeApplication : Application() {
             modules(
                 networkModule,
                 viewModelModule,
-                repositoryModule
+                repositoryModule,
+                databaseModule
             )
         }
     }

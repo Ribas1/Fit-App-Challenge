@@ -1,6 +1,9 @@
 package com.pedroribeiro.fitappchallenge.model
 
 import android.os.Parcelable
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 
@@ -16,14 +19,15 @@ data class GoalsResponse(
     }
 }
 
+@Entity(tableName = "goals")
 @Parcelize
 data class Goal(
-    val id: Long,
+    @PrimaryKey val id: Long,
     val title: String,
     val description: String,
     val type: String,
     val goal: Long,
-    val reward: Reward
+    @Embedded val reward: Reward
 ) : Parcelable {
     fun mapToUi(): GoalUiModel {
         return GoalUiModel(
@@ -42,7 +46,9 @@ data class Goal(
 }
 
 @Parcelize
+@Entity(tableName = "rewards")
 data class Reward(
+    @PrimaryKey(autoGenerate = true) val rewardId: Long,
     val trophy: String,
     val points: Int
 ) : Parcelable {
