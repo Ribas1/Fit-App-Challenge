@@ -9,6 +9,21 @@
         android:id="@+id/homeFragment"
         android:name="com.pedroribeiro.fitappchallenge.home.HomeFragment"
         android:label="Home Fragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_goal"
+            app:destination="@id/goalFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/goalFragment"
+        android:name="com.pedroribeiro.fitappchallenge.goal.GoalFragment"
+        android:label="Goal Fragment"
+        tools:layout="@layout/fragment_goal">
+        <argument
+            android:name="goal"
+            app:argType="com.pedroribeiro.fitappchallenge.model.Goal"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

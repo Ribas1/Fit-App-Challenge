@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.pedroribeiro.fitappchallenge.R
+import com.pedroribeiro.fitappchallenge.common.BaseFragment
 import com.pedroribeiro.fitappchallenge.common.RecyclerViewDecorator
 import com.pedroribeiro.fitappchallenge.common.show
 import com.pedroribeiro.fitappchallenge.model.Goal
@@ -17,7 +17,7 @@ import com.pedroribeiro.fitappchallenge.model.GoalsResponse
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     private val viewModel: HomeViewModel by viewModel()
     private val goalsAdapter: GoalsAdapter by lazy {
@@ -80,7 +80,25 @@ class HomeFragment : Fragment() {
                     onGoals(goals)
                 }
             )
+
+            navigation.observe(
+                this@HomeFragment,
+                Observer { navigation ->
+                    onNavigation(navigation)
+                }
+            )
         }
+    }
+
+    private fun onNavigation(navigation: HomeViewModel.Navigation?) {
+        when (navigation) {
+            is HomeViewModel.Navigation.ToGoalFragment -> navigateToGoalFragment(navigation.goal)
+        }
+    }
+
+    private fun navigateToGoalFragment(goal: Goal) {
+        val direction = HomeFragmentDirections.actionHomeToGoal(goal)
+        navigateTo(direction)
     }
 
     private fun onLoading(visible: Boolean) {

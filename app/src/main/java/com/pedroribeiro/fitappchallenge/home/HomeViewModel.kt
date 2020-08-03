@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pedroribeiro.fitappchallenge.common.BaseViewModel
+import com.pedroribeiro.fitappchallenge.common.SingleLiveEvent
 import com.pedroribeiro.fitappchallenge.model.Goal
 import com.pedroribeiro.fitappchallenge.model.GoalsResponse
 import com.pedroribeiro.fitappchallenge.repositories.GoalRepository
@@ -24,6 +25,9 @@ class HomeViewModel(
     private val _goals = MutableLiveData<GoalsResponse>()
     val goals: LiveData<GoalsResponse> = _goals
 
+    private val _navigation = SingleLiveEvent<Navigation>()
+    val navigation: LiveData<Navigation> = _navigation
+
     fun getGoals() {
         compositeDisposable.add(
             repository.getGoal()
@@ -40,7 +44,13 @@ class HomeViewModel(
     }
 
     fun onGoalClick(goal: Goal) {
-        TODO("Not yet implemented")
+        _navigation.postValue(Navigation.ToGoalFragment(goal))
+    }
+
+    sealed class Navigation {
+        data class ToGoalFragment(
+            val goal: Goal
+        ) : Navigation()
     }
 
 }
