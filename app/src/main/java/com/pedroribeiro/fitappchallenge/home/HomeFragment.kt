@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.material.snackbar.Snackbar
 import com.pedroribeiro.fitappchallenge.R
@@ -16,7 +15,6 @@ import com.pedroribeiro.fitappchallenge.common.BaseFragment
 import com.pedroribeiro.fitappchallenge.common.RecyclerViewDecorator
 import com.pedroribeiro.fitappchallenge.extensions.show
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
-import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -146,9 +144,7 @@ class HomeFragment : BaseFragment() {
             .show()
     }
 
-    private fun onGoals(goals: GoalsUiModel?) {
-        goals?.let {
-            goalsAdapter.updateData(goals)
-        }
+    private fun onGoals(goals: List<GoalUiModel>) {
+        goalsAdapter.updateData(goals)
     }
 }

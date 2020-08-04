@@ -4,4 +4,7 @@
     <string name="toolbar_goal_title">Goal</string>
     <string name="generic_error">An error occurred please retry later</string>
     <string name="no_goals_error">There are currently no goals available</string>
+    <string name="goal_details_user_progress_title">Progress</string>
+    <string name="goal_details_user_day_steps">Day steps: %1$d</string>
+    <string name="googe_fit_error">There was an error retrieving user exercise data</string>
 </resources>

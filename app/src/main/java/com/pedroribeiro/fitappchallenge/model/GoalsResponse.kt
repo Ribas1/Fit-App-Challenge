@@ -20,15 +20,14 @@ data class GoalsResponse(
 }
 
 @Entity(tableName = "goals")
-@Parcelize
 data class Goal(
     @PrimaryKey val id: Long,
     val title: String,
     val description: String,
     val type: String,
-    val goal: Long,
+    val goal: Int,
     @Embedded val reward: Reward
-) : Parcelable {
+) {
     fun mapToUi(): GoalUiModel {
         return GoalUiModel(
             id,
@@ -36,30 +35,31 @@ data class Goal(
             description,
             mapTypeStringToEnum(type),
             goal,
-            reward.mapToUi()
+            reward.mapToUi(),
+            null
         )
     }
 
     private fun mapTypeStringToEnum(type: String): GoalType {
-        return GoalType.values().firstOrNull { it.toString() == type } ?: GoalType.OTHER
+        return GoalType.values().firstOrNull { it.value == type } ?: GoalType.OTHER
     }
 }
 
-@Parcelize
 @Entity(tableName = "rewards")
 data class Reward(
     @PrimaryKey(autoGenerate = true) val rewardId: Long,
     val trophy: String,
     val points: Int
-) : Parcelable {
+) {
     fun mapToUi(): RewardUiModel {
         return RewardUiModel(
             mapTrophyStringToEnum(trophy),
-            points
+            points,
+            null
         )
     }
 
     private fun mapTrophyStringToEnum(trophy: String): Trophy {
-        return Trophy.values().firstOrNull { it.toString() == trophy } ?: Trophy.NONE
+        return Trophy.values().firstOrNull { it.value == trophy } ?: Trophy.NONE
     }
 }

@@ -32,14 +32,14 @@ class GoalsAdapter(
         holder.bind(goal, clickListener)
     }
 
-    fun updateData(goals: GoalsUiModel) {
-        this.goals = goals.goals.toMutableList()
+    fun updateData(goals: List<GoalUiModel>) {
+        this.goals = goals.toMutableList()
         notifyDataSetChanged()
     }
 
 }
 
-class GoalViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+class GoalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     @SuppressLint("SetTextI18n")
     fun bind(
         goal: GoalUiModel,

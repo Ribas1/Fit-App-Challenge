@@ -21,8 +21,8 @@ class HomeViewModel(
     private val _error = MutableLiveData<Errors>()
     val error: LiveData<Errors> = _error
 
-    private val _goals = MutableLiveData<GoalsUiModel>()
-    val goals: LiveData<GoalsUiModel> = _goals
+    private val _goals = MutableLiveData<List<GoalUiModel>>()
+    val goals: LiveData<List<GoalUiModel>> = _goals
 
     private val _navigation = SingleLiveEvent<Navigation>()
     val navigation: LiveData<Navigation> = _navigation
@@ -35,6 +35,7 @@ class HomeViewModel(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.mapToUi() }
+                .map { it.getUpdatedUiModel() }
                 .subscribe({ response ->
                     _goals.postValue(response)
                 }, {

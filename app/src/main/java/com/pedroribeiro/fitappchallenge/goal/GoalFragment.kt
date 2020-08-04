@@ -2,28 +2,21 @@ package com.pedroribeiro.fitappchallenge.goal
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
-import com.google.android.gms.fitness.data.DataType
-import com.google.android.gms.fitness.data.Field
-import com.google.android.gms.fitness.request.DataReadRequest
+import com.google.android.material.snackbar.Snackbar
 import com.pedroribeiro.fitappchallenge.R
 import com.pedroribeiro.fitappchallenge.common.BaseFragment
-import com.pedroribeiro.fitappchallenge.model.Goal
+import com.pedroribeiro.fitappchallenge.extensions.show
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
 import kotlinx.android.synthetic.main.fragment_goal.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class GoalFragment : BaseFragment() {
@@ -71,13 +64,49 @@ class GoalFragment : BaseFragment() {
 
     private fun setupViewModel() {
         with(viewModel) {
+            setup(goal)
             getUserData(hasPermissions())
+
             navigation.observe(
                 this@GoalFragment,
                 Observer { navigation ->
                     onNavigation(navigation)
                 }
             )
+
+            error.observe(
+                this@GoalFragment,
+                Observer {
+                    onError()
+                }
+            )
+
+            goalProgress.observe(
+                this@GoalFragment,
+                Observer { progress ->
+                    onGoalProgress(progress)
+                }
+            )
+
+            loading.observe(
+                this@GoalFragment,
+                Observer {
+                    goal_details_progress_bar.show(it)
+                }
+            )
+        }
+    }
+
+    private fun onGoalProgress(progress: Pair<Int, Boolean>) {
+        goal_details_user_step_progress.progress = progress.first
+        goal_details_description.text = goal?.description
+        goal_details_user_daily_steps.text =
+            getString(R.string.goal_details_user_day_steps, goal?.stepGoal ?: 0)
+        goal?.typeImage?.let {
+            goal_details_type.setImageResource(it)
+        }
+        goal?.reward?.trophyImage?.let {
+            goal_details_user_reward.setImageResource(it)
         }
     }
 
@@ -89,5 +118,10 @@ class GoalFragment : BaseFragment() {
         when (navigation) {
             GoalViewModel.Navigation.Up -> navigateUp()
         }
+    }
+
+    private fun onError() {
+        Snackbar.make(requireView(), getString(R.string.googe_fit_error), Snackbar.LENGTH_LONG)
+            .show()
     }
 }

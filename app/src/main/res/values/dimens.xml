@@ -5,4 +5,7 @@
     <dimen name="item_default_margin">15dp</dimen>
     <dimen name="item_default_small_margin">5dp</dimen>
     <dimen name="decorator_heighr">15dp</dimen>
+    <dimen name="goal_details_grey_section_height">20dp</dimen>
+    <dimen name="goal_details_inner_margin_size">8dp</dimen>
+    <dimen name="progress_bar_size">35dp</dimen>
 </resources>
