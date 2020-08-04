@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.material.snackbar.Snackbar
 import com.pedroribeiro.fitappchallenge.R
 import com.pedroribeiro.fitappchallenge.common.BaseFragment
@@ -15,10 +18,21 @@ import com.pedroribeiro.fitappchallenge.extensions.show
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
 import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+private const val GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1
 
 class HomeFragment : BaseFragment() {
 
+    private val fitnessOptions by inject<FitnessOptions>()
+
+    //should be injected by koin
+    private val googleAccount by lazy {
+        GoogleSignIn.getAccountForExtension(
+            requireContext(), fitnessOptions
+        )
+    }
     private val viewModel: HomeViewModel by viewModel()
     private val goalsAdapter: GoalsAdapter by lazy {
         GoalsAdapter { goal: GoalUiModel ->
@@ -37,11 +51,22 @@ class HomeFragment : BaseFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setupViewModel()
+        setupGoogleSignIn()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+    }
+
+    private fun setupGoogleSignIn() {
+        if (!GoogleSignIn.hasPermissions(googleAccount, fitnessOptions)) {
+            GoogleSignIn.requestPermissions(
+                this,
+                GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
+                googleAccount, fitnessOptions
+            )
+        }
     }
 
     private fun setupRecyclerView() {

@@ -15,7 +15,8 @@ class FitAppChallengeApplication : Application() {
                 viewModelModule,
                 repositoryModule,
                 databaseModule,
-                dataModule
+                dataModule,
+                fitnessApiModule
             )
         }
     }
