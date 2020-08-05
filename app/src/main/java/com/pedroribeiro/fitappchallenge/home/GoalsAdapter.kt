@@ -51,5 +51,12 @@ class GoalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.goal_title.text = goal.title
         itemView.goal_description.text = goal.description
         itemView.goal_points.text = "+ ${goal.reward.points}"
+        goal.typeImage?.let {  resId ->
+            itemView.goal_type.setImageResource(resId)
+        }
+        goal.reward.trophyImage?.let {  resId ->
+            itemView.goal_trophy.setImageResource(resId)
+        }
+
     }
 }
