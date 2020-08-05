@@ -7,11 +7,11 @@ import com.pedroribeiro.fitappchallenge.common.SingleLiveEvent
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
 import com.pedroribeiro.fitappchallenge.network.NoStepsTodayException
 import com.pedroribeiro.fitappchallenge.repositories.StepsRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.pedroribeiro.fitappchallenge.schedulers.SchedulerProvider
 
 class GoalViewModel(
-    private val stepsRepository: StepsRepository
+    private val stepsRepository: StepsRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     private val _goalProgress = MutableLiveData<Pair<Int, Boolean>>()
@@ -20,8 +20,8 @@ class GoalViewModel(
     private val _navigation = SingleLiveEvent<Navigation>()
     val navigation: LiveData<Navigation> = _navigation
 
-    private val _error = MutableLiveData<Error>()
-    val error: LiveData<Error> = _error
+    private val _error = MutableLiveData<Errors>()
+    val errors: LiveData<Errors> = _error
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
@@ -38,8 +38,8 @@ class GoalViewModel(
                 stepsRepository.getTodaysSteps()
                     .doOnSubscribe { _loading.postValue(true) }
                     .doFinally { _loading.postValue(false) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
                     .subscribe({ steps ->
                         onGetSteps(steps)
                     }, {
@@ -51,8 +51,8 @@ class GoalViewModel(
 
     private fun onGetStepsError(it: Throwable?) {
         when (it) {
-            is NoStepsTodayException -> _error.postValue(Error.NoSteps)
-            else -> _error.postValue(Error.Other)
+            is NoStepsTodayException -> _error.postValue(Errors.NoSteps)
+            else -> _error.postValue(Errors.Other)
         }
     }
 
@@ -77,9 +77,9 @@ class GoalViewModel(
         object Up : Navigation()
     }
 
-    sealed class Error {
-        object NoSteps : Error()
-        object Other : Error()
+    sealed class Errors {
+        object NoSteps : Errors()
+        object Other : Errors()
     }
 
 }

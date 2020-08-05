@@ -87,7 +87,7 @@ class GoalFragment : BaseFragment() {
                 }
             )
 
-            error.observe(
+            errors.observe(
                 this@GoalFragment,
                 Observer {
                     onError(it)
@@ -111,7 +111,9 @@ class GoalFragment : BaseFragment() {
     }
 
     private fun onGoalProgress(progress: Pair<Int, Boolean>) {
-        goal_details_user_step_progress.progress = progress.first
+        if (progress.second) {
+            goal_details_user_step_progress.progress = progress.first
+        }
     }
 
     private fun hasPermissions(): Boolean {
@@ -124,10 +126,10 @@ class GoalFragment : BaseFragment() {
         }
     }
 
-    private fun onError(it: GoalViewModel.Error) {
+    private fun onError(it: GoalViewModel.Errors) {
         when (it) {
-            GoalViewModel.Error.NoSteps -> showSnackBar(getString(R.string.no_steps_error))
-            GoalViewModel.Error.Other -> showSnackBar(getString(R.string.googe_fit_error))
+            GoalViewModel.Errors.NoSteps -> showSnackBar(getString(R.string.no_steps_error))
+            GoalViewModel.Errors.Other -> showSnackBar(getString(R.string.googe_fit_error))
         }
     }
 

@@ -5,6 +5,6 @@ import com.pedroribeiro.fitappchallenge.home.HomeViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    factory { HomeViewModel(get()) }
-    factory { GoalViewModel(get()) }
+    factory { HomeViewModel(get(), get()) }
+    factory { GoalViewModel(get(), get()) }
 }

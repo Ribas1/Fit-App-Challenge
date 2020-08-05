@@ -3,16 +3,17 @@ package com.pedroribeiro.fitappchallenge.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.pedroribeiro.fitappchallenge.common.BaseViewModel
+import com.pedroribeiro.fitappchallenge.schedulers.SchedulerProvider
 import com.pedroribeiro.fitappchallenge.common.SingleLiveEvent
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
-import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import com.pedroribeiro.fitappchallenge.network.EmptyListException
 import com.pedroribeiro.fitappchallenge.repositories.GoalRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel(
-    private val repository: GoalRepository
+    private val repository: GoalRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     private val _loading = MutableLiveData<Boolean>()
@@ -32,8 +33,8 @@ class HomeViewModel(
             repository.getGoals()
                 .doOnSubscribe { _loading.postValue(true) }
                 .doFinally { _loading.postValue(false) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .map { it.mapToUi() }
                 .map { it.getUpdatedUiModel() }
                 .subscribe({ response ->
