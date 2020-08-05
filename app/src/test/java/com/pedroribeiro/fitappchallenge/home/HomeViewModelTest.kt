@@ -12,6 +12,7 @@ import com.pedroribeiro.fitappchallenge.model.GoalsUiModel
 import com.pedroribeiro.fitappchallenge.network.EmptyListException
 import com.pedroribeiro.fitappchallenge.repositories.GoalRepository
 import com.pedroribeiro.fitappchallenge.schedulers.TrampolineSchedulerProvider
+import com.pedroribeiro.fitappchallenge.utils.LifecycleOwnerUtils
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -36,13 +37,7 @@ class HomeViewModelTest {
             goalRepository,
             TrampolineSchedulerProvider()
         )
-        setupLifecycleOwner()
-    }
-
-    private fun setupLifecycleOwner() {
-        val lifecycle = LifecycleRegistry(lifecycleOwner)
-        every { lifecycleOwner.lifecycle } returns lifecycle
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        LifecycleOwnerUtils.setupLifecycleOwner(lifecycleOwner)
     }
 
     @Test
