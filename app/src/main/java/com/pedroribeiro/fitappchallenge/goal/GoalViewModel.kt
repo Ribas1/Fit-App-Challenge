@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.pedroribeiro.fitappchallenge.common.BaseViewModel
 import com.pedroribeiro.fitappchallenge.common.SingleLiveEvent
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
+import com.pedroribeiro.fitappchallenge.network.NoStepsTodayException
 import com.pedroribeiro.fitappchallenge.repositories.StepsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,8 +20,8 @@ class GoalViewModel(
     private val _navigation = SingleLiveEvent<Navigation>()
     val navigation: LiveData<Navigation> = _navigation
 
-    private val _error = MutableLiveData<Unit>()
-    val error: LiveData<Unit> = _error
+    private val _error = MutableLiveData<Error>()
+    val error: LiveData<Error> = _error
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
@@ -42,9 +43,16 @@ class GoalViewModel(
                     .subscribe({ steps ->
                         onGetSteps(steps)
                     }, {
-                        _error.postValue(Unit)
+                        onGetStepsError(it)
                     })
             )
+        }
+    }
+
+    private fun onGetStepsError(it: Throwable?) {
+        when (it) {
+            is NoStepsTodayException -> _error.postValue(Error.NoSteps)
+            else -> _error.postValue(Error.Other)
         }
     }
 
@@ -67,6 +75,11 @@ class GoalViewModel(
 
     sealed class Navigation {
         object Up : Navigation()
+    }
+
+    sealed class Error {
+        object NoSteps : Error()
+        object Other : Error()
     }
 
 }

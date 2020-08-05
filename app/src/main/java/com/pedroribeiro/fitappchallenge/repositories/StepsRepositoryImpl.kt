@@ -8,6 +8,7 @@ import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.tasks.Tasks
+import com.pedroribeiro.fitappchallenge.network.NoStepsTodayException
 import io.reactivex.Observable
 
 class StepsRepositoryImpl(
@@ -28,7 +29,13 @@ class StepsRepositoryImpl(
         val dailyTotalTask = fitnessHistoryClient
             .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
         return Observable.fromCallable { Tasks.await(dailyTotalTask) }
-            .flatMap { dataSet -> Observable.fromIterable(dataSet.dataPoints) }
+            .flatMap { dataSet ->
+                if (dataSet.dataPoints.isEmpty()) {
+                    Observable.error(NoStepsTodayException())
+                } else {
+                    Observable.fromIterable(dataSet.dataPoints)
+                }
+            }
             .map { datapoint -> datapoint.getValue(Field.FIELD_STEPS).toString() }
     }
 }

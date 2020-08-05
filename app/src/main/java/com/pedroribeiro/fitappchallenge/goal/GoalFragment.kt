@@ -51,6 +51,7 @@ class GoalFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        setupView()
     }
 
     private fun setupToolbar() {
@@ -59,6 +60,18 @@ class GoalFragment : BaseFragment() {
                 viewModel.onBackClick()
             }
             title = goal?.title
+        }
+    }
+
+    private fun setupView() {
+        goal_details_description.text = goal?.description
+        goal_details_user_daily_steps.text =
+            getString(R.string.goal_details_steps, goal?.stepGoal ?: 0)
+        goal?.typeImage?.let {
+            goal_details_type.setImageResource(it)
+        }
+        goal?.reward?.trophyImage?.let {
+            goal_details_user_reward.setImageResource(it)
         }
     }
 
@@ -77,7 +90,7 @@ class GoalFragment : BaseFragment() {
             error.observe(
                 this@GoalFragment,
                 Observer {
-                    onError()
+                    onError(it)
                 }
             )
 
@@ -99,15 +112,6 @@ class GoalFragment : BaseFragment() {
 
     private fun onGoalProgress(progress: Pair<Int, Boolean>) {
         goal_details_user_step_progress.progress = progress.first
-        goal_details_description.text = goal?.description
-        goal_details_user_daily_steps.text =
-            getString(R.string.goal_details_user_day_steps, goal?.stepGoal ?: 0)
-        goal?.typeImage?.let {
-            goal_details_type.setImageResource(it)
-        }
-        goal?.reward?.trophyImage?.let {
-            goal_details_user_reward.setImageResource(it)
-        }
     }
 
     private fun hasPermissions(): Boolean {
@@ -120,8 +124,15 @@ class GoalFragment : BaseFragment() {
         }
     }
 
-    private fun onError() {
-        Snackbar.make(requireView(), getString(R.string.googe_fit_error), Snackbar.LENGTH_LONG)
+    private fun onError(it: GoalViewModel.Error) {
+        when (it) {
+            GoalViewModel.Error.NoSteps -> showSnackBar(getString(R.string.no_steps_error))
+            GoalViewModel.Error.Other -> showSnackBar(getString(R.string.googe_fit_error))
+        }
+    }
+
+    private fun showSnackBar(string: String) {
+        Snackbar.make(requireView(), string, Snackbar.LENGTH_LONG)
             .show()
     }
 }

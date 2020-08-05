@@ -73,7 +73,7 @@
         android:id="@+id/goal_details_user_daily_steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/goal_details_user_day_steps"
+        android:text="@string/goal_details_steps"
         tools:text="Day steps: 40"
         android:layout_marginTop="@dimen/goal_details_inner_margin_size"
         app:layout_constraintStart_toStartOf="@id/goal_details_user_progress"
