@@ -79,8 +79,11 @@ dependencies {
     implementation "com.google.android.gms:play-services-fitness:$playServicesVersion"
     implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
 
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //testing
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 
 }

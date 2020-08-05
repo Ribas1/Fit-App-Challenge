@@ -19,7 +19,9 @@ ext {
     lifecycleVersion = '2.2.0'
     playServicesVersion = '18.0.0'
     materialVersion = '1.1.0'
-    junit = '4.12'
-    espresso = '3.2.0'
-    androidJunit = '1.1.1'
+
+    junitVersion = '4.13'
+    espressoVersion = '3.2.0'
+    androidJunitVersion = '1.1.1'
+    mockkVersion = '1.10.0'
 }
