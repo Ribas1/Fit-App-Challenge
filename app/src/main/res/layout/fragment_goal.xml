@@ -96,6 +96,7 @@
         android:id="@+id/goal_details_user_reward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/goal_details_user_avatar"
         app:layout_constraintEnd_toEndOf="@id/goal_details_user_avatar"
         app:layout_constraintStart_toStartOf="@id/goal_details_user_avatar"

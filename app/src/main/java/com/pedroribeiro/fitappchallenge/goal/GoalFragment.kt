@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pedroribeiro.fitappchallenge.R
 import com.pedroribeiro.fitappchallenge.common.BaseFragment
 import com.pedroribeiro.fitappchallenge.extensions.show
+import com.pedroribeiro.fitappchallenge.extensions.visible
 import com.pedroribeiro.fitappchallenge.model.GoalUiModel
 import kotlinx.android.synthetic.main.fragment_goal.*
 import org.koin.android.ext.android.inject
@@ -112,8 +113,9 @@ class GoalFragment : BaseFragment() {
 
     private fun onGoalProgress(progress: Pair<Int, Boolean>) {
         if (progress.second) {
-            goal_details_user_step_progress.progress = progress.first
+            goal_details_user_reward.visible()
         }
+        goal_details_user_step_progress.progress = progress.first
     }
 
     private fun hasPermissions(): Boolean {
